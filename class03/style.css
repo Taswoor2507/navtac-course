@@ -1,0 +1,14 @@
+/* selector{
+    propertyname : value;
+    propertyname : value;
+    propertyname : value;
+} */
+
+#redspan{
+    color: red;
+}
+
+
+.bluespan{
+    color: blue;
+}

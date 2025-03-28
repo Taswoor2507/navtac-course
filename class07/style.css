@@ -1,0 +1,47 @@
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+
+
+.container{
+   border: 1px solid red;
+   background-color: aquamarine;
+    padding: 20px;
+}
+
+.logo{
+  /* background-color: blue; */
+  display: inline-block;
+  width: 24%;
+}
+
+.navLinks{
+/* background-color: green; */
+display: inline-block;
+  width: 50%;
+  text-align: center;
+}
+
+.navLinks a {
+    text-decoration:none;
+    color: blueviolet;
+    margin-right: 20px;
+}
+
+.btns{
+/* background-color: yellow; */
+display: inline-block;
+  width: 25%;
+  text-align: right;
+}
+
+
+.btns .btn1{
+   background-color: red;
+   padding: 10px 20px 10px 20px;
+   border: none;
+   border-radius: 10px;
+}
