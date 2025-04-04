@@ -103,3 +103,47 @@
 
 // OOPS
 // CLASS
+// ___________________________________________
+
+// class User  {
+//    constructor(fname , age , email){
+//      this.fname = fname;
+//      this.age = age;
+//      this.email = email;
+//    }
+
+
+//    getName(){
+//       console.log(this.fname);
+//    }
+
+
+
+// }
+
+// const user1 = new User("ALex" , 21 , "a@gmail.com")
+// console.log(user1)
+
+
+// ____________________________________________
+
+// pop , push , shift , unshift
+// const arr = [1,2,3,4,5]
+// arr.pop()
+// arr.shift()
+
+
+// arr.push(6)
+// arr.unshift(6)
+// console.log(arr) 
+
+
+
+// slice
+
+// const a2= arr.slice(0,3)
+// console.log(a2)
+
+
+
+
