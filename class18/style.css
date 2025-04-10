@@ -1,0 +1,72 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+h1{
+    text-align: center;
+    background-color: lightgray;
+    padding: 10px 12px;
+    box-shadow: 1px 1px 10px 1px gray;
+}
+
+
+
+.fields{
+  /* border: 1px solid red; */
+  margin-top: 20px;
+  display: flex;
+  padding: 10px;
+
+}
+
+.fields #task{
+    width: 90%;
+    padding: 10px 4px;
+} 
+
+.fields #add{
+    width: 10%;
+}
+
+
+ul{
+    background-color: lightgray;
+    min-height: 400px;
+   margin: 10px;
+}
+
+ul li {
+    background-color:darkgray;
+    display: flex;
+    padding: 14px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    border-radius: 4px;
+
+}
+
+ul li button{
+    padding: 10px 20px;
+}
+
+button.done{
+    background-color: rgb(106, 241, 106);
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: black;
+    font-size: 18px;
+}
+
+
+button.delete{
+    background-color: rgb(235, 39, 39);
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+}
