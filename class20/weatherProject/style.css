@@ -1,0 +1,137 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #67B26F, #4ca2cd);
+    padding: 20px;
+}
+
+.weather-card {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.weather-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+    position: relative;
+}
+
+.location {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.date {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.weather-icon {
+    width: 100px;
+    height: 100px;
+    margin: 15px auto;
+    display: block;
+}
+
+.temp {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.weather-desc {
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.detail-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    opacity: 0.7;
+}
+
+.detail-label {
+    font-size: 14px;
+    color: #666;
+}
+
+.detail-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.sun-times {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.sun-item {
+    text-align: center;
+    flex: 1;
+}
+
+.sun-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.sun-time {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+@media (max-width: 480px) {
+    .weather-card {
+        max-width: 100%;
+    }
+    
+    .temp {
+        font-size: 40px;
+    }
+}
