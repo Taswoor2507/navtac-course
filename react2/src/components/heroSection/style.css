@@ -1,0 +1,13 @@
+.hero{
+    min-height:80vh;
+    /* background-color: pink; */
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsnumwhcLTJjwE_oAOWNy05qR6VMWdMAvSAQ&s");
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+
+}
