@@ -9,6 +9,9 @@ const TaskCard = ({task , handleDeleteTask , handleUpdateTask}) => {
           <p className="text-xl">
             {task.description}
           </p>
+          <p className="text-sm">
+            {task.createdAt}
+          </p>
           <div className=" card-actions flex">
             <select
               value={task.status}

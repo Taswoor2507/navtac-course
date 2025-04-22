@@ -1,9 +1,10 @@
 import React from 'react'
 
-const Progress = () => {
+const Progress = ({progress}) => {
   return (
     <div>
-        <progress className="progress progress-secondary w-56" value={0} max="100"></progress>
+        <progress className="progress progress-secondary w-56" value={progress} max="100"></progress>
+        {progress}%
     </div>
   )
 }
