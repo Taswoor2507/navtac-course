@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { increment } from './store/counterSlice/CounterSlice'
+import ThemeBtn from './components/ThemeBtn'
 
 const App = () => {
   // get
@@ -10,11 +11,21 @@ const App = () => {
      const dispatch=useDispatch()
 
 
+// theme
+
+  const theme = useSelector((state)=>{return state.Theme})
+
+  useEffect(()=>{
+     document.documentElement.className =theme
+  } ,[theme])
+
   return (
-    <div>
+    <div className='dark:bg-black  dark:text-white   text-black bg-white' >
       App  counter value is {value}
+      theme is {theme}
       <br/>
       <button  onClick={()=>{dispatch(increment())}} >Increment</button>
+    <ThemeBtn/>
     </div>
   )
 }

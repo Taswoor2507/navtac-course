@@ -2,11 +2,13 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import CounterReducer from "./counterSlice/CounterSlice.jsx";
-
+import ThemeReducer from "./themeSlice/ThemeSlice.jsx";
 const store =  configureStore(
     {
        reducer:{
          Counter:CounterReducer,  //{value:0} 
+         Theme:ThemeReducer,   // theme:"light",
+         
        }
     }
 ) 
