@@ -5,6 +5,12 @@ import { Navigate, useNavigate } from 'react-router-dom';
 const Login = () => {
    const navigate = useNavigate()
     const {login} = useContext(authContext)
+
+    const {user}  =useContext(authContext)
+    if(user){
+       return  <Navigate to={"/"}/>
+    }
+
 function handleSubmit(e){
     e.preventDefault();
     // formData
