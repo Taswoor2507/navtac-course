@@ -27,8 +27,8 @@ const corsOption = {
     app.use(cors(corsOption))
 
 // route configure 
-
-
+import userRouter from "./router/user.router.js"
+app.use("/api/v1/users" , userRouter)
 
 
 // export app
