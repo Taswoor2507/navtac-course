@@ -20,7 +20,7 @@ if(!this.isModified("password")) return
 })
 
 
-// verify password with hash 
+// verify password with hash in
 UserSchema.methods.comparePassword = async function(enterPasswrod){
    try {
     console.log(enterPasswrod, this.password)
