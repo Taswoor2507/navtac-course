@@ -1,0 +1,23 @@
+{
+  "name": "backend001",
+  "version": "1.0.0",
+  "description": "express server ",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "express",
+    "backend",
+    "server",
+    "node"
+  ],
+  "author": "taswoor hossein",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
