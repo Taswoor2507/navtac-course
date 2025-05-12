@@ -33,7 +33,6 @@ res.status(201).json({
  
 async function loginUser(req,res,next){
                    const {email, password}   =req.body
-               //     check
 
                if(!password || !email){
                     return res.json({message:"All fields are required"})
@@ -51,10 +50,22 @@ async function loginUser(req,res,next){
   if(!isVerify){
       return res.status(400).json({message:"password is not valid"})
   }
+//   generate jwt token 
+   const token = user.generateToken()
+ console.log(token)
+//    set cookie 
+res.cookie("token", token, {
+   httpOnly: true,
+   secure: false,         // true agar HTTPS use kar rahe ho // CSRF ke liye
+   maxAge: 24 * 60 * 60 * 1000, // 1 din,
+ });
+
+
 
   return res.status(200).json({
     message:"user login successfully",
-    user:user
+    user:user,
+    token:token
   })
 
 
@@ -63,11 +74,15 @@ async function loginUser(req,res,next){
      //  const user  =  User.findOne({})
 
 }
+async function deleteUser(req,res){
+  return  res.json({message:"user deleted"})
+}
 
 
 
 
-export {registerUser,loginUser}
+
+export {registerUser,loginUser, deleteUser}
 
 
 
