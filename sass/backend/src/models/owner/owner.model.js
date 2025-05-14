@@ -24,6 +24,7 @@ const ownerSchema = new Schema({
     },
     profile:{
         type:String,
+        required:false
     },
     isDeleted:{
         type:Boolean,

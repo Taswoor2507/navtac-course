@@ -24,24 +24,6 @@ const registerOwner = AsyncHandler(async function (req, res, next) {
   } = req.body;
 
   // field check
-  const fieldsArray = [
-    fullName,
-    email,
-    phone,
-    password,
-    profile,
-    plan,
-    name,
-    city,
-    address,
-    contactNumber,
-    type,
-  ];
-  for (const field of fieldsArray) {
-    if (!field) {
-      return next(new CustomError("All fields are required", 400));
-    }
-  }
 
   //    owner create
 
