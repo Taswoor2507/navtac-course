@@ -6,3 +6,5 @@ const router = Router();
 router.route("/register").post(registerOwner)
 
 export default router
+
+// async  --> fn

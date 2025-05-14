@@ -4,5 +4,4 @@ function AsyncHandler(fn){
     }
 }
 
-
 export default AsyncHandler
