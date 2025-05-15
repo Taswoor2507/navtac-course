@@ -2,7 +2,10 @@ import Owner from "../../models/owner/owner.model.js";
 import School from "../../models/school/School.model.js";
 import AsyncHandler from "../../utils/AsyncHandler.js";
 import CustomError from "../../utils/CustomError.js";
-
+import emailHtmlTemplate from "../../utils/emailHTMLTemplat.js";
+import generateOTP from "../../utils/generateOtp.js"
+import Otp from "../../models/otp/otp.model.js";
+import sendEmail from "../../utils/sendEmail.js";
 // const registerOwner =async function(req,res,next){
 //     throw new CustomError("this is my cutom error" , 404 , {data:null})
 // }
@@ -56,6 +59,35 @@ console.log(owner  , "OWNER")
     if(!school){
         return next(new CustomError("School not created" , 400))
     }
+ // generate otp 
+ const ownerOtp = generateOTP();
+
+//  email send 
+  try {
+    const info = await sendEmail(owner.email , "OTP verication" , emailHtmlTemplate(owner.fullName , ownerOtp))
+    if(info){
+      const otp = await Otp.create({
+        email:owner._id,
+        otp:ownerOtp,
+        otpExpiry:Date.now() + 10 * 60 * 1000,
+        lastOtpSentAt:Date.now()
+      })
+      if(!otp){
+        return next(new CustomError("Otp not created" , 422))
+      }
+    }
+  } catch (error) {
+    return next(new CustomError("Email send failed" , 423))
+  }
+
+
+
+
+
+
+
+
+
 
 
     res.status(201).json({
