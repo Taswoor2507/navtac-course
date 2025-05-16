@@ -3,6 +3,7 @@ import logo from "/logo.png";
 import OwnerForm from "./OwnerForm";
 import SchoolForm from "./SchoolForm";
 import toast, { Toaster } from "react-hot-toast";
+import OtpInput from "./OtpInput";
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -61,7 +62,9 @@ const RegisterForm = () => {
       .then((data) => {
         console.log(data);
         if (data.status === 1) {
+          setStep(3)
           return toast.success("OTP send to your email please verify");
+
         }
       })
       .catch(() => {
@@ -71,7 +74,7 @@ const RegisterForm = () => {
 
   return (
     <div className="flex h-[105vh]">
-      <div className="flex-1 bg-green-400 pl-6">
+      <div className="flex-1  pl-6">
         <div className="flex flex-col gap-4">
           <img src={logo} className="w-[200px]" alt="" />
           <div className="flex  pl-4 flex-col gap-2">
@@ -100,6 +103,9 @@ const RegisterForm = () => {
               handleSubmit={handleSubmit}
             />
           )}
+          {
+            step === 3 && <OtpInput  formData={formData}/>
+          }
         </div>
       </div>
       <div className="flex-1 bg-red-400">
