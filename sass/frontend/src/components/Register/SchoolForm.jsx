@@ -1,6 +1,6 @@
 import React from "react";
 
-const SchoolForm = ({handlePrev, handleChange , formData, handleSubmit}) => {
+const SchoolForm = ({handlePrev, handleChange , formData, handleSubmit, loading}) => {
   return (
    <div>
        <div className=" p-4 flex flex-col gap-3 text-white">
@@ -134,7 +134,12 @@ const SchoolForm = ({handlePrev, handleChange , formData, handleSubmit}) => {
       </div>
       <div className="flex gap-4">
         <button className="btn btn-neutral" onClick={()=>{handlePrev()}}>Previous</button>
-        <button className="btn btn-neutral"  onClick={handleSubmit}>Submit</button>
+        <button className="btn btn-neutral"  onClick={handleSubmit}>
+          {
+            loading && <span className="loading loading-spinner text-white"></span>
+          }
+          Submit
+        </button>
       </div>
     </div>
    </div>

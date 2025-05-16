@@ -18,6 +18,7 @@ const RegisterForm = () => {
     type: "",
   });
   const [step, setStep] = useState(1);
+  const [loading , setLoading] = useState(false)
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -42,6 +43,7 @@ const RegisterForm = () => {
   // hanlde register
 
   function handleSubmit() {
+   setLoading(true)
     fetch("http://localhost:7070/api/v1/owner/register", {
       method: "POST",
       headers: {
@@ -69,7 +71,10 @@ const RegisterForm = () => {
       })
       .catch(() => {
         toast.error("Registration failed try again ");
-      });
+      })
+      .finally(()=>{
+        setLoading(false)
+      })
   }
 
   return (
@@ -101,6 +106,7 @@ const RegisterForm = () => {
               formData={formData}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
+              loading={loading}
             />
           )}
           {
@@ -109,7 +115,7 @@ const RegisterForm = () => {
         </div>
       </div>
       <div className="flex-1 bg-red-400">
-      <img className="w-full h-full object-cover" src="https://img.freepik.com/free-photo/kids-classroom-taking-english-class_23-2149402667.jpg?uid=R81763851&ga=GA1.1.1431774858.1747201417&semt=ais_hybrid&w=740" alt="" />
+      <img className="w-full h-full object-cover" src="https://img.freepik.com/free-photo/full-shot-kids-teacher-sitting-table_23-2149355204.jpg?uid=R81763851&ga=GA1.1.1431774858.1747201417&semt=ais_hybrid&w=740" alt="" />
       </div>
 
       <Toaster position="top-center" reverseOrder={false} />

@@ -6,6 +6,7 @@ import emailHtmlTemplate from "../../utils/emailHTMLTemplat.js";
 import generateOTP from "../../utils/generateOtp.js"
 import Otp from "../../models/otp/otp.model.js";
 import sendEmail from "../../utils/sendEmail.js";
+import cleanOtp from "../../helpers/CleanOtp.js";
 // const registerOwner =async function(req,res,next){
 //     throw new CustomError("this is my cutom error" , 404 , {data:null})
 // }
@@ -156,7 +157,68 @@ const verifyOtp = AsyncHandler(async(req,res,next)=>{
 
 
 
+// resend-otp
+
+const resendOtp = AsyncHandler(async(req,res,next)=>{
+   const { email } = req.body;
+
+// check
+   const isEmailExist = await Owner.findOne({email})
+   if(!isEmailExist){
+    return next(new CustomError("Email not found" , 404))
+   }
+
+  //  check user already verify or not 
+     if(isEmailExist.isVerify){
+        return next(new CustomError("User already verify" , 404))
+     }
+
+    // 
+  // clean otp
+  
+  try {
+    await cleanOtp(isEmailExist._id)
+    // generate otp
+    const newOTP = generateOTP()
+
+    // Email send 
+       const result  = await sendEmail(isEmailExist.email , "OTP resend verication" , emailHtmlTemplate(isEmailExist.fullName , newOTP))
+       if(!result){
+        return next(new CustomError("Email not send" , 404))
+       }
+
+      //  create otp object on otp model 
+     const otp =  await Otp.create({
+        email:isEmailExist._id,
+        otp:newOTP,
+        otpExpiry:Date.now() + 10 * 60 * 1000,
+        lastOtpSentAt:Date.now()
+      })
+
+      if(!otp){
+        return next(new CustomError("Otp not created" , 422))
+      }
+
+      res.json({
+        message:"Otp resend successfully",
+        status:1
+      })
+      
+    } catch (error) {
+        return next(error)
+    }
 
 
 
-export { registerOwner , verifyOtp};
+
+
+
+})
+
+
+
+
+
+
+
+export { registerOwner , verifyOtp, resendOtp};
