@@ -7,6 +7,7 @@ import generateOTP from "../../utils/generateOtp.js"
 import Otp from "../../models/otp/otp.model.js";
 import sendEmail from "../../utils/sendEmail.js";
 import cleanOtp from "../../helpers/CleanOtp.js";
+import uploadImage from "../../utils/cloudinary.js";
 // const registerOwner =async function(req,res,next){
 //     throw new CustomError("this is my cutom error" , 404 , {data:null})
 // }
@@ -223,6 +224,16 @@ const imageUpload = AsyncHandler(async(req,res,next)=>{
          if (!file){
            return next(new CustomError("Image not found" , 404))
          }
+       
+          // file upload to cloudinary
+          const imageObj = await uploadImage(file.path)
+          if(!imageObj){
+            return next(new CustomError("Image upload failed" , 500))
+          }
+          
+          console.log(imageObj , "IMAGE OBJ")
+
+
          res.json({
             message:"Image uploaded successfully",
             status:1,

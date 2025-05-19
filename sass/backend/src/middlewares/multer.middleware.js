@@ -30,8 +30,8 @@ const storage = multer.diskStorage({
 const checkTypes = (req,file,cb)=>{
     const allowTypes  = /png|jpg|jpeg|gif|svg/ ;   //regex
     const imageType = allowTypes.test(path.extname(file.originalname).toLowerCase())  //Jpg
-    const minmeType = allowTypes.test(file.minmeType)  // image/png
- if(imageType && minmeType){
+    const mimeType = allowTypes.test(file.mimetype)  // image/png
+ if(imageType && mimeType){
     cb(null , true)
  }else{
     cb(new CustomError("Only image files are allowed", 400), false)
