@@ -217,8 +217,20 @@ const resendOtp = AsyncHandler(async(req,res,next)=>{
 
 
 
+const imageUpload = AsyncHandler(async(req,res,next)=>{
+         const {file} = req
+         console.log(file , "FILE")
+         if (!file){
+           return next(new CustomError("Image not found" , 404))
+         }
+         res.json({
+            message:"Image uploaded successfully",
+            status:1,
+         })
+})
 
 
 
 
-export { registerOwner , verifyOtp, resendOtp};
+
+export { registerOwner , verifyOtp, resendOtp, imageUpload};
