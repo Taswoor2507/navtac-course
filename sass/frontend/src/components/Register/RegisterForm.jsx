@@ -16,6 +16,7 @@ const RegisterForm = () => {
     address: "",
     contactNumber: "",
     type: "",
+    profile:undefined 
   });
   const [step, setStep] = useState(1);
   const [loading , setLoading] = useState(false)
@@ -43,14 +44,29 @@ const RegisterForm = () => {
   // hanlde register
 
   function handleSubmit() {
+    const avalialbleFormData =  new FormData()
+    for (const key in formData) {
+      if (formData[key]) {
+        avalialbleFormData.append(key, formData[key]);
+      }
+    }
+    // avalialbleFormData.append("fullName", formData.fullName); 
+    // avalialbleFormData.append("email", formData.email);
+    // avalialbleFormData.append("password", formData.password);
+    // avalialbleFormData.append("phone", formData.phone);
+    // avalialbleFormData.append("plan", formData.plan);
+    // avalialbleFormData.append("name", formData.name);
+    // avalialbleFormData.append("city", formData.city);
+    // avalialbleFormData.append("address", formData.address);
+
    setLoading(true)
     fetch("http://localhost:7070/api/v1/owner/register", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
       credentials: "include",
-      body: JSON.stringify(formData),
+      body: avalialbleFormData,
     })
       .then((res) => {
         if (res.status === 409) {
@@ -98,6 +114,7 @@ const RegisterForm = () => {
               handleNext={handleNext}
               formData={formData}
               handleChange={handleChange}
+              setFormData={setFormData}
             />
           )}
           {step === 2 && (

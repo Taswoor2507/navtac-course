@@ -1,6 +1,18 @@
 import React from "react";
 
-const OwnerForm = ({handleNext, handleChange , formData}) => {
+const OwnerForm = ({handleNext, handleChange , formData, setFormData}) => {
+  
+  function handleImageChange(e){
+     const file  = e.target.files[0]
+     if(!file){
+        setFormData((prev)=>({...prev , profile:undefined}))
+        return 
+     }
+     setFormData((prev)=>({...prev , profile:file}))
+
+  }
+  
+  
   return (
     <div className=" p-4 flex flex-col gap-3 text-white">
       <div className="fullName">
@@ -125,6 +137,38 @@ const OwnerForm = ({handleNext, handleChange , formData}) => {
           <option value="silver">Silver</option>
           <option value="gold">Gold</option>
         </select>
+      </div>
+      {/* profile */}
+       <div className="fullName">
+        <label className="input validator">
+          <svg
+            className="h-[1em] opacity-50"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <g
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </g>
+          </svg>
+          <input
+            type="file"
+            accept="image/*"
+            name="profile"
+            onChange={handleImageChange}
+          />
+        </label>
+        {formData.profile && (
+          <p className="text-sm text-green-500 mt-1">
+            File selected: {formData.profile.name}
+          </p>
+        )}
       </div>
       <div>
         <button className="btn btn-neutral"   onClick={(()=>{handleNext()})}>Next</button>
