@@ -19,14 +19,35 @@ const registerOwner = AsyncHandler(async function (req, res, next) {
     email,
     phone,
     password,
-    profile,
     plan,
     name,
     city,
     address,
     contactNumber,
     type,
+    profile
   } = req.body;
+  console.log(req.body)
+let secureUrl
+  const {file} = req
+    if(file){
+         const localpath = file.path
+         try {
+                   const imageUpload =  await uploadImage(localpath);
+                    if(!imageUpload){
+                      return next(new CustomError("Image upload failed" , 500))
+                    }
+
+                    secureUrl = imageUpload.secure_url
+                    console.log(secureUrl , "SECURE URL")
+         } catch (error) {
+          return next(new CustomError("Image upload failed" , 500))
+         }
+    }
+
+
+
+
 
   // field check
 
@@ -39,6 +60,7 @@ const registerOwner = AsyncHandler(async function (req, res, next) {
     password,
     profile,
     plan,
+    profile:secureUrl|| undefined
   });
 
 
