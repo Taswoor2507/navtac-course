@@ -1,5 +1,6 @@
 import mongoose, {Schema} from "mongoose";
 import bcrypt from "bcryptjs"
+import CustomError from "../../utils/CustomError.js";
 const ownerSchema = new Schema({
     fullName: {
         type: String,
@@ -54,7 +55,14 @@ ownerSchema.pre("save" , async function(){
       next(error)
    }
 })
-
+// compare password
+ownerSchema.methods.comparePassword = async function (password){
+   try {
+     return await bcrypt.compare(password , this.password)
+   } catch (error) {
+    throw new CustomError("Password comparison failed" , 500)
+   }
+} 
 
 
 const Owner = mongoose.model("owner" , ownerSchema)
