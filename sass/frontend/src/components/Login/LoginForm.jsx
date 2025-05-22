@@ -1,9 +1,9 @@
 import React from "react";
 import logo from "/logo.png";
 import { toast } from "react-hot-toast";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router";
 const LoginForm = () => {
-   
+      const navigate = useNavigate();
 function handleSubmit(e){
    e.preventDefault();
    const formData =  new FormData(e.target);
@@ -20,6 +20,7 @@ function handleSubmit(e){
         headers: {
             "Content-Type": "application/json",
         },
+        credentials:"include",
         body: JSON.stringify({
             email,
             password,
@@ -35,6 +36,7 @@ function handleSubmit(e){
     })
     .then((data)=>{
          if(data?.status === 1){
+          navigate("/owner/dashboard")
              toast.success("Login successfuly");
          }
     })
