@@ -301,9 +301,10 @@ if(!token){
 
 res.cookie("token" , token , {
   httpOnly:true,
-  expires:new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //7 days 
-  secure:false,
-  sameSite:"none"
+  secure:true,
+  sameSite:"none",
+  path:"/",
+  expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //7 days
 })
 
   // login user 
@@ -327,6 +328,21 @@ res.cookie("token" , token , {
 // })
 
 
+// user me 
+const me  =  AsyncHandler(async(req,res,next)=>{
+    const {email} =  req.user;
+    const isUserExist = await Owner.findOne({email});
+    if(!isUserExist){
+      return next(new CustomError("User not found" , 404))
+    }
+    
+    res.json({
+      status:1 ,
+     message:"your profile object" , 
+     data:isUserExist
+    })
+
+})
 
 
 
@@ -334,4 +350,5 @@ res.cookie("token" , token , {
 
 
 
-export { registerOwner , verifyOtp, resendOtp, imageUpload, login};
+
+export { registerOwner , verifyOtp, resendOtp, imageUpload, me, login};
