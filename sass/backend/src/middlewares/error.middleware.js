@@ -15,7 +15,8 @@ async function errorMiddleware(err, req,res,next){
     res.status(statusCode).json({
         message:message,
         statusCode:statusCode,
-        data:err.data
+        data:err.data,
+        stack:err.stack
     })
 
 

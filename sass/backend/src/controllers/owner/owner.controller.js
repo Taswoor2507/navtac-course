@@ -9,6 +9,8 @@ import sendEmail from "../../utils/sendEmail.js";
 import cleanOtp from "../../helpers/CleanOtp.js";
 import uploadImage from "../../utils/cloudinary.js";
 import chalk from "chalk";
+import jwt from "jsonwebtoken"
+import generateRefreshToken from "../../utils/generateRefreshToken.js";
 // const registerOwner =async function(req,res,next){
 //     throw new CustomError("this is my cutom error" , 404 , {data:null})
 // }
@@ -291,21 +293,47 @@ const login = AsyncHandler(async(req,res,next)=>{
   }
 
 
-  // generate token
+  // generate  access token
    const token = isEmailExist.generateToken();
    console.log(chalk.green.bold("JWT TOKEN " ,  token))
 
 if(!token){
   return next(new CustomError("Token not generated" , 500))
 }
+// refresh token create 
+const refreshToken = generateRefreshToken({id:isEmailExist._id , email : isEmailExist.email})
+if(!refreshToken){
+  return next(new CustomError("Failed to genrate refresh token " ,  400))
+}
 
-res.cookie("token" , token , {
-  httpOnly:true,
+console.log(chalk.red.bold("REFRESHTOKEN" ,  refreshToken))
+// store refresh token in db
+ try {
+     await Owner.findOneAndUpdate({id:isEmailExist._id},  {refreshToken})
+ } catch (error) {
+    return next(new CustomError("Fail to store refresh token in db" , 401))
+ }
+
+
+//  set refresh token in cookies 
+res.cookie("refresh" , refreshToken, {
+    httpOnly:true,
   secure:true,
   sameSite:"none",
   path:"/",
-  expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //7 days
+  expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), //15 days
 })
+
+
+
+
+// res.cookie("token" , token , {
+//   httpOnly:true,
+//   secure:true,
+//   sameSite:"none",
+//   path:"/",
+//   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //7 days
+// })
 
   // login user 
   res.json({
@@ -314,7 +342,7 @@ res.cookie("token" , token , {
     data:{
       user:isEmailExist
     },
-    token
+    accessToken : token
   })
 
 })
@@ -346,9 +374,51 @@ const me  =  AsyncHandler(async(req,res,next)=>{
 
 
 
+// refresh access token using refresh token 
+const refresh = AsyncHandler(async(req,res,next)=>{
+  // get refresh token 
+  const refreshToken = req.cookies.refresh
+  console.log(chalk.black.bold.bgWhite("REFRESH TOKEN GET FROM COOKIES " , refreshToken));
+  if(!refreshToken){
+    return next(new CustomError("Refresh Token not found " , 404))
+  }
+
+  // check refresh token 
+  console.log(process.env.REFRESH_TOKEN_SECRET  , "ENV VARIBALE ")
+  const decodeUserData  = jwt.verify(refreshToken , process.env.REFRESH_TOKEN_SECRET)
+  console.log(chalk.black.bold.bgWhite("Decoded data" ,  decodeUserData))
+  if(!decodeUserData){
+    return next(new CustomError("Invalid refresh token " , 401));
+  }
+  // check refresh token store is avaliable in db 
+  
+   const isValidRefreshToken  =  await Owner.findOne({email:decodeUserData.email});
+   if(!isValidRefreshToken){
+    return next(new CustomError("Invalid refresh token " , 401))
+   } 
+
+   // generate new access token 
+    const newAccessToken =  isValidRefreshToken.generateToken();
+
+ if(!newAccessToken){
+    return next(new CustomError("failed to refresh access token " , 400))
+ }
+
+   console.log(chalk.black.bold.bgWhite("New accesstoken" , newAccessToken))
+
+  res.json({
+    message:"Token refreesh successfully ..",
+    status:1, 
+    accessToken:newAccessToken
+  })
+
+
+})
 
 
 
 
 
-export { registerOwner , verifyOtp, resendOtp, imageUpload, me, login};
+
+
+export { registerOwner , verifyOtp, resendOtp, imageUpload, me, refresh , login};

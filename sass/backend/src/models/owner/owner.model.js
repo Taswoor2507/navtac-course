@@ -39,6 +39,10 @@ const ownerSchema = new Schema({
     plan:{
         type:String,
         default:"free"
+    },
+    refreshToken:{
+        type:String,
+        default:null
     }
 
 } , {timestamps:true})
