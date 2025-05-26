@@ -384,21 +384,25 @@ const refresh = AsyncHandler(async(req,res,next)=>{
   }
 
   // check refresh token 
-  console.log(process.env.REFRESH_TOKEN_SECRET  , "ENV VARIBALE ")
+
+  try {
+    console.log(process.env.REFRESH_TOKEN_SECRET  , "ENV VARIBALE ")
   const decodeUserData  = jwt.verify(refreshToken , process.env.REFRESH_TOKEN_SECRET)
   console.log(chalk.black.bold.bgWhite("Decoded data" ,  decodeUserData))
+   
   if(!decodeUserData){
     return next(new CustomError("Invalid refresh token " , 401));
   }
-  // check refresh token store is avaliable in db 
-  
-   const isValidRefreshToken  =  await Owner.findOne({email:decodeUserData.email});
+
+  const isValidRefreshToken  =  await Owner.findOne({email:decodeUserData.email});
    if(!isValidRefreshToken){
     return next(new CustomError("Invalid refresh token " , 401))
    } 
 
+
    // generate new access token 
     const newAccessToken =  isValidRefreshToken.generateToken();
+
 
  if(!newAccessToken){
     return next(new CustomError("failed to refresh access token " , 400))
@@ -406,11 +410,34 @@ const refresh = AsyncHandler(async(req,res,next)=>{
 
    console.log(chalk.black.bold.bgWhite("New accesstoken" , newAccessToken))
 
-  res.json({
+
+   res.json({
     message:"Token refreesh successfully ..",
     status:1, 
     accessToken:newAccessToken
   })
+
+
+  } catch (error) {
+
+    res.clearCookie("refresh" , {
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path:"/",
+      expires: new Date(Date.now())
+    })
+    if(error.name === "TokenExpiredError"){
+      return next(new CustomError("Refresh token expired" , 401))
+    }
+    return next(new CustomError("Invalid refresh token" , 401));
+  }
+ 
+  // check refresh token store is avaliable in db 
+  
+   
+
+
 
 
 })
