@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../authContext/AuthContext';
 import useRefresh from '../customHooks/useRefresh';
+import { Toaster } from 'react-hot-toast';
 
 const Owner = () => {
     const [loading, setLoading] = useState(true);
@@ -39,6 +40,8 @@ const Owner = () => {
             ) : (
                 <Outlet />
             )}
+
+            <Toaster position="top-center" reverseOrder={false} />
         </div>
     );
 };
