@@ -51,7 +51,7 @@ const ownerSchema = new Schema({
 
 ownerSchema.pre("save" , async function(){
     if(!this.isModified("password")){
-        next()
+        return ;
     }
    try {
     const salt = await bcrypt.genSalt(10)

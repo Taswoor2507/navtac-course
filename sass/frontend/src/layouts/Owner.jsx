@@ -42,7 +42,7 @@ const Owner = () => {
             )}
 
             <Toaster position="top-center" reverseOrder={false} />
-        </div>
+        </div>  
     );
 };
 

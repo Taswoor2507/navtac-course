@@ -48,7 +48,7 @@ console.log("TOKEN FROM HEADER" , bearerToken)
     if(!decode){
       return next(new CustomError("Token is not valid" , 401));
     }
-    req.user = decode;
+    req.user = decode;  // {id , email , exp}
     next();
 
 
