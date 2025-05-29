@@ -1,7 +1,8 @@
 import Router from "express";
-import {imageUpload, login, logout, me, refresh, registerOwner, resendOtp, verifyOtp} from "../../controllers/owner/owner.controller.js"
+import {addPrincipal, imageUpload, login, logout, me, refresh, registerOwner, resendOtp, verifyOtp} from "../../controllers/owner/owner.controller.js"
 import upload from "../../middlewares/multer.middleware.js";
 import verifyToken from "../../middlewares/verifyToken.middleware.js";
+import isAllow from "../../middlewares/isAllow.middleware.js";
 const router = Router();
 
 
@@ -13,6 +14,7 @@ router.route("/me").get(verifyToken ,  me)
 router.route("/upload").post(upload.single("profile") , imageUpload)
 router.route("/refresh").get(refresh)
 router.route("/logout").get( verifyToken ,logout)
+router.route("/add-principal").post(verifyToken , isAllow("OWNER") ,  addPrincipal) //["OWNER" ,  "TEACHER"]
 // req
 // file :{ }
 export default router

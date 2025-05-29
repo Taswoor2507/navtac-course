@@ -11,6 +11,8 @@ import uploadImage from "../../utils/cloudinary.js";
 import chalk from "chalk";
 import jwt from "jsonwebtoken"
 import generateRefreshToken from "../../utils/generateRefreshToken.js";
+import { AsyncResource } from "async_hooks";
+import principalWelcomeEmailTemplate from "../../utils/principalEmailTemplate.js";
 // const registerOwner =async function(req,res,next){
 //     throw new CustomError("this is my cutom error" , 404 , {data:null})
 // }
@@ -472,10 +474,69 @@ const logout = AsyncHandler(async (req,res,next)=>{
     })
 })
 
+let addPrincipal=  AsyncHandler(async(req,res,next)=>{
+    let {fullName,
+    email,
+    phone,
+    password,
+    } =  req.body
+
+//  fields checks 
+if(!fullName || !email || !phone ){
+  return next(new CustomError("All fields are required" , 400))
+}
+  password =  "12345678as"
+
+  //  check owner
+    const owner =  req?.user;
+    if(!owner){
+      return next(new CustomError("User not found" , 404))
+    }
+// check in db
+    const ownerExist =   await Owner.findOne({email:owner.email});
+    if(!ownerExist){
+      return next(new CustomError("User not found" , 404))
+    }
+    console.log(owner , "OWNER")
+    // get school from owner
+      const schoolData =  await School.findOne({owner:ownerExist._id});
+      if(!schoolData){
+        return next(new CustomError("School not found" , 404))
+      }
+    // create principal
+    const principal =  await Owner.create({
+      fullName , password ,  email , phone , profile:"" , role:"PRINCIPAL" , school:schoolData._id , principalFields:{salary:100000} 
+    })
+
+  if(!principal){
+      return next(new CustomError("Principal not created" , 500))
+  }
+  const wholeData =  await principal.populate("school")
+  console.log(wholeData , "WHOLE DATA")
+   
+  try {
+     sendEmail(principal.email , "Welcome to Schoolify" ,  principalWelcomeEmailTemplate(principal.fullName, wholeData.school.name, password))
+  } catch (error) {
+    return next(new CustomError("Email send failed" , 500))
+  }
+
+~
+  res.status(201).json({
+    message:"Principal created successfully",
+    status:1,
+    data:principal
+  })
+
+
+
+  
+
+
+
+})
 
 
 
 
 
-
-export { registerOwner , verifyOtp, resendOtp, imageUpload, me, refresh , login , logout};
+export { registerOwner , verifyOtp, resendOtp, imageUpload, me, refresh , login , logout, addPrincipal};
