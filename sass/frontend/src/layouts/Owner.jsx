@@ -38,7 +38,11 @@ const Owner = () => {
                     <div>Loading...</div>
                 </div>
             ) : (
+                <>
+                <h1>layout</h1>
                 <Outlet />
+                
+                </>
             )}
 
             <Toaster position="top-center" reverseOrder={false} />

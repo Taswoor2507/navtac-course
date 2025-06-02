@@ -6,6 +6,9 @@ import VerifyAccount from "./pages/VerifyAccount";
 import Owner from "./layouts/Owner";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoutes from "./ProtectedRoutes";
+import PrincipalDashboard from "./pages/PrincipalDashboard";
+import StudentsDashboard from "./pages/StudentsDashboard";
+import TeacherDashboard from "./pages/TeacherDashboard";
 const router =  createBrowserRouter([
     {
         path:"/auth",
@@ -30,11 +33,56 @@ const router =  createBrowserRouter([
         element:<Owner/>,
         children:[
             {
-                element:<ProtectedRoutes/>,
+                element:<ProtectedRoutes  role={["OWNER"]}/>,
                 children:[
                     {
                         path:"dashboard",
                         element:<Dashboard/>
+                    }
+                ]
+            }
+        ]
+    } , 
+      {
+        path:"/principal",
+        element:<Owner/>,
+        children:[
+            {
+                element:<ProtectedRoutes  role={["PRINCIPAL"] } />,
+                children:[
+                    {
+                        path:"dashboard",
+                        element:<PrincipalDashboard/>
+                    }
+                ]
+            }
+        ]
+    }, 
+     {
+        path:"/teacher",
+        element:<Owner/>,
+        children:[
+            {
+                element:<ProtectedRoutes  role={["TEACHER"] } />,
+                children:[
+                    {
+                        path:"dashboard",
+                        element:<TeacherDashboard/>
+                    }
+                ]
+            }
+        ]
+    },
+     {
+        path:"/student",
+        element:<Owner/>,
+        children:[
+            {
+                element:<ProtectedRoutes  role={["STUDENT"] } />,
+                children:[
+                    {
+                        path:"dashboard",
+                        element:<StudentsDashboard/>
                     }
                 ]
             }

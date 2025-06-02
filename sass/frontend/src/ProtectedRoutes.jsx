@@ -1,12 +1,11 @@
 import React, { useContext } from 'react'
 import { AuthContext } from './authContext/AuthContext'
 import { Navigate , Outlet } from 'react-router-dom';
-const ProtectedRoutes = () => {
+const ProtectedRoutes = ({role}) => { //["PRINCIPAL"]   "OWNER"
   const {auth} =  useContext(AuthContext);
+ console.log(auth , "Auth")
 
-
-
-  return auth?.accessToken ? <Outlet/> : <Navigate to="/auth/login"/>
+  return auth?.accessToken  && role?.includes(auth?.user?.role)  ? <Outlet/> : <Navigate to="/auth/login"/>
  
 }
 

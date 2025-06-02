@@ -15,7 +15,8 @@ function useRefresh(){
             setAuth((prev)=>{
                 return {
                     ...prev, 
-                    accessToken :res?.data?.accessToken
+                    accessToken :res?.data?.accessToken , 
+                    data:res?.data?.data
                 }
             })
 
