@@ -9,7 +9,10 @@ function AuthProvider({children}){
  const persistValue =  JSON.parse(localStorage.getItem("persist")) || false
 
 
-  const [auth , setAuth] = useState({});
+  const [auth , setAuth] = useState({
+    accessToken :null, 
+    user:null
+  });
   const [persist , setPersist] = useState(persistValue)
 
 

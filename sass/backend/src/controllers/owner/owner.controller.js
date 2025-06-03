@@ -11,7 +11,6 @@ import uploadImage from "../../utils/cloudinary.js";
 import chalk from "chalk";
 import jwt from "jsonwebtoken"
 import generateRefreshToken from "../../utils/generateRefreshToken.js";
-import { AsyncResource } from "async_hooks";
 import principalWelcomeEmailTemplate from "../../utils/principalEmailTemplate.js";
 // const registerOwner =async function(req,res,next){
 //     throw new CustomError("this is my cutom error" , 404 , {data:null})
@@ -537,7 +536,45 @@ if(!fullName || !email || !phone ){
 })
 
 
+// getuser
+
+const getUser = AsyncHandler(async(req,res,next)=>{
+  const {userId }= req?.params
+  
+  const user  =  await Owner.findById(userId)
+  if(!user){
+    return next(new CustomError("User not found" , 404))
+  }
+
+  res.status(200).json({
+    message:"User found successfully",
+    status:1,
+    data:user
+  })
+      
+
+})
+
+
+// get all 
+const getAll  =  AsyncHandler(async(req,res,next)=>{
+     const all =  await Owner.find().select(["-password" , "-refreshToken"]);
+        //  const all =  await Owner.find().select(["email"]);
+     if(!all || all.length < 1 ){
+       return next(new CustomError("No user found" , 404))
+     }
+
+     res.json({
+       message:"Users found successfully",
+       status:1,
+       data:all
+     })
+})
 
 
 
-export { registerOwner , verifyOtp, resendOtp, imageUpload, me, refresh , login , logout, addPrincipal};
+
+
+
+
+export { registerOwner , verifyOtp, resendOtp, imageUpload, me, getAll , refresh , login , getUser , logout, addPrincipal};
