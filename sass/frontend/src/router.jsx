@@ -9,6 +9,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import PrincipalDashboard from "./pages/PrincipalDashboard";
 import StudentsDashboard from "./pages/StudentsDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
+import DetailsPage from "./pages/DetailsPage";
 const router =  createBrowserRouter([
     {
         path:"/auth",
@@ -87,7 +88,14 @@ const router =  createBrowserRouter([
                 ]
             }
         ]
+    } , 
+
+    {
+        path:"user/:id",
+        element:<DetailsPage/>
     }
+
+
 ])
 
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 const PrincipalDashboard = () => {
     const [loading , setLoading] = useState(true);
     const [users , setUsers] =  useState(null);
@@ -43,7 +44,8 @@ const PrincipalDashboard = () => {
         users && users.map((user , index)=>(
           <div key={index} className='border border-red-400'>
             <p>{user?.fullName}</p>
-            <p>{user?.email}</p>first
+            <p>{user?.email}</p>
+            <Link to={`/user/${user._id}`}>view Details</Link>
           </div>
         ))
       }
