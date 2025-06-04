@@ -12,6 +12,7 @@ import chalk from "chalk";
 import jwt from "jsonwebtoken"
 import generateRefreshToken from "../../utils/generateRefreshToken.js";
 import principalWelcomeEmailTemplate from "../../utils/principalEmailTemplate.js";
+import ApiFeatures from "../../utils/ApiFeatures.js";
 // const registerOwner =async function(req,res,next){
 //     throw new CustomError("this is my cutom error" , 404 , {data:null})
 // }
@@ -558,14 +559,18 @@ const getUser = AsyncHandler(async(req,res,next)=>{
 
 // get all 
 const getAll  =  AsyncHandler(async(req,res,next)=>{
-     const all =  await Owner.find().select(["-password" , "-refreshToken"]);
-        //  const all =  await Owner.find().select(["email"]);
+     const requestQuery =  new ApiFeatures(Owner.find() , req.query).search(["email" ,  "fullName"])
+     console.log( "REQUESTQUERY", requestQuery)
+
+     const all = await requestQuery.query
+     const totalUsers = await requestQuery.query.clone().countDocuments()
      if(!all || all.length < 1 ){
        return next(new CustomError("No user found" , 404))
      }
 
      res.json({
        message:"Users found successfully",
+       totalUsers,
        status:1,
        data:all
      })
