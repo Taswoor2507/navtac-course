@@ -21,11 +21,12 @@ class ApiFeatures {
    //search
    search(fields = []){
     // regex
+    // serach  
      if(this.queryString.search){
-        const regex = new RegExp(this.queryString.search , "i")
+        const regex = new RegExp(this.queryString.search , "i")   //"/john/"
         const searchFields =  fields.map((field)=>{
                     return  {
-                        [field] : regex
+                        [field] : regex       // [{email:{$regex:"alex"}, fullName:{$regex:"alex"}}]
                     }
         })
         console.log(searchFields , "ssssssssssssss")
@@ -35,7 +36,6 @@ class ApiFeatures {
         })
     }    
     return this 
-
    }
 }
 

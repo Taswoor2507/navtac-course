@@ -3,6 +3,15 @@ import express from "express"
 import cors from "cors"
 const app = express()
 
+
+
+app.use((req,res,next)=>{
+    app.disable('x-powered-by');
+    next()
+})
+
+// disbale header
+app.disable('x-powered-by');
 // middlewares implement
 // json <in build global middleware> 
 app.use(express.json())

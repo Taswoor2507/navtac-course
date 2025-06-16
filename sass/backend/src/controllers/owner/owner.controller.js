@@ -559,8 +559,10 @@ const getUser = AsyncHandler(async(req,res,next)=>{
 
 // get all 
 const getAll  =  AsyncHandler(async(req,res,next)=>{
+
+  console.log("QUERY OBJECT FROM FRONTEN" ,  req.query.search)
      const requestQuery =  new ApiFeatures(Owner.find() , req.query).search(["email" ,  "fullName"])
-     console.log( "REQUESTQUERY", requestQuery)
+    //  console.log( "REQUESTQUERY", requestQuery)
 
      const all = await requestQuery.query
      const totalUsers = await requestQuery.query.clone().countDocuments()
